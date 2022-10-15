@@ -4,22 +4,36 @@
       "id": 1,
       "author": "김미래",
       "title": "헤어질 결심",
+<<<<<<< HEAD
       "content": "올해 최고의 멜로 영화.",
+=======
+      "body": "올해 최고의 멜로영화",
+>>>>>>> main
       "isDone": true
     },
     {
       "id": 2,
       "author": "이성훈",
+<<<<<<< HEAD
       "title": "에브리원 에브리바디 올앳원스",
       "content": "인생 영화 등극",
+=======
+      "title": "에브리바디 에브리웨어 올앳원스",
+      "body": "인생 영화 등극!!!",
+>>>>>>> main
       "isDone": false
     },
     {
       "id": 3,
       "author": "정원지",
       "title": "놉",
+<<<<<<< HEAD
       "content": "꼭 한번 보고 싶다!!!",
       "isDone": false
+=======
+      "body": "꼭 한번 보고 싶슴니다",
+      "isDone": true
+>>>>>>> main
     }
   ]
 }
