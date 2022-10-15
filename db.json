@@ -1,0 +1,25 @@
+{
+  "movies": [
+    {
+      "id": 1,
+      "author": "김미래",
+      "title": "헤어질 결심",
+      "content": "올해 최고의 멜로 영화.",
+      "isDone": true
+    },
+    {
+      "id": 2,
+      "author": "이성훈",
+      "title": "에브리원 에브리바디 올앳원스",
+      "content": "인생 영화 등극",
+      "isDone": false
+    },
+    {
+      "id": 3,
+      "author": "정원지",
+      "title": "놉",
+      "content": "꼭 한번 보고 싶다!!!",
+      "isDone": false
+    }
+  ]
+}
