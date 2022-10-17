@@ -1,37 +1,34 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { __addMovie } from "../redux/modules/moviesSlice";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 
 const AddMovie = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  //   const goToMain = () => {
+  //     navigate("/movies");
+  //   };
+
   const [movie, setMovie] = useState({
     author: "",
     title: "",
     content: "",
+    idDone: "false",
   });
 
-  const [movies, setMovies] = useState(null);
+  const onAddHandler = (movie) => {
+    dispatch(__addMovie(movie));
+    navigate("/movies");
+  };
 
   const {
     register,
     formState: { errors },
-    // handleSubmit,
-    // setError,
-  } = useForm({ mode: "onBlur" });
-
-  const fetchmovies = async () => {
-    const { data } = await axios.get("http://localhost:3001/movies");
-    setMovies(data);
-  };
-
-  const onSubmitHandler = (movie) => {
-    console.log(movie);
-    axios.post("http://localhost:3001/movies", movie);
-  };
-
-  useEffect(() => {
-    fetchmovies();
-  }, []);
+  } = useForm({ mode: "onBlur" }); //유효성검사
 
   return (
     <StContainer>
@@ -39,11 +36,11 @@ const AddMovie = () => {
       <Stform
         onSubmit={(event) => {
           event.preventDefault();
-          onSubmitHandler(movie);
+          onAddHandler(movie);
         }}
       >
         {/* 이름 */}
-        <>
+        <Stwrap>
           <Stlabel>이름</Stlabel>
           <Stinput
             {...register("author", {
@@ -67,13 +64,13 @@ const AddMovie = () => {
             }}
           />
           <Warn>{errors?.author?.message}</Warn>
-        </>
+        </Stwrap>
         {/* 제목 */}
         <Stwrap>
           <Stlabel>제목</Stlabel>
           <Stinput
             {...register("title", {
-              required: "제목을 입력해주세요.",
+              required: "이름을 입력해주세요.",
               minLength: {
                 value: 3,
                 message: "3글자 이상 입력해주세요.",
@@ -99,7 +96,7 @@ const AddMovie = () => {
           <Stlabel>내용</Stlabel>
           <Stinputs
             {...register("content", {
-              required: "내용을 입력해주세요.",
+              required: "이름을 입력해주세요.",
               minLength: {
                 value: 3,
                 message: "3글자 이상 입력해주세요.",
@@ -119,8 +116,8 @@ const AddMovie = () => {
             }}
           />
           <Warn>{errors?.content?.message}</Warn>
-          <Stbutton>입력하기</Stbutton>
         </Stwrap>
+        <Stbutton>추가하기</Stbutton>
       </Stform>
     </StContainer>
   );
@@ -141,7 +138,35 @@ const StContainer = styled.div`
   align-items: center;
   justify-content: center;
 `;
-const Stform = styled.section`
+const Warn = styled.div`
+  color: red;
+  padding-left: 17px;
+  font-size: 0.8rem;
+  font-weight: 00;
+  /* div + & {
+    margin: 0.5rem 0 0.8rem;
+  } */
+  font-family: "ghanachoco";
+  margin-top: 5px;
+  margin-left: -180px;
+`;
+const Stbutton = styled.button`
+  font-family: "ghanachoco";
+  font-size: 17px;
+  border: none;
+  background-color: rgb(130, 176, 251);
+  height: 60px;
+  cursor: pointer;
+  width: 150px;
+  border-radius: 12px;
+  color: white;
+  margin-top: 50px;
+  &:hover {
+    background-color: #e8bda6;
+    color: White;
+  }
+`;
+const Stform = styled.form`
   border-radius: 20px;
   border: 5px solid cadetblue;
   background-color: #def1ef;
@@ -176,34 +201,7 @@ const Stinputs = styled.input`
   border-radius: 12px;
   outline: none;
 `;
-const Stbutton = styled.button`
-  font-family: "ghanachoco";
-  font-size: 17px;
-  border: none;
-  background-color: rgb(130, 176, 251);
-  height: 60px;
-  cursor: pointer;
-  width: 150px;
-  border-radius: 12px;
-  color: white;
-  margin-top: 50px;
-  &:hover {
-    background-color: #e8bda6;
-    color: White;
-  }
-`;
-const Warn = styled.div`
-  color: red;
-  padding-left: 17px;
-  font-size: 0.8rem;
-  font-weight: 00;
-  /* div + & {
-    margin: 0.5rem 0 0.8rem;
-  } */
-  font-family: "ghanachoco";
-  margin-top: 5px;
-  margin-left: -200px;
-`;
+
 const Stwrap = styled.div`
   display: flex;
   flex-direction: column;
