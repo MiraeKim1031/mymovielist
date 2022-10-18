@@ -32,10 +32,9 @@ export const __deleteMovies = createAsyncThunk(
 )
 
 export const __completeMovies = createAsyncThunk(
-    'movie/completeMovies',
+    'movies/completeMovies',
     async(payload, thunkAPI) => {
         try {
-            console.log(payload)
             axios.patch(`http://localhost:3001/movies/${payload.id}`, {isDone: !payload.isDone});
             return thunkAPI.fulfillWithValue(payload);
         } catch (error) {
