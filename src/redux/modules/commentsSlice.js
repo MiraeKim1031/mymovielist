@@ -20,16 +20,17 @@ export const __getComments = createAsyncThunk(
 );
 
 export const __addComment = createAsyncThunk(
-   'movie/addComment',
+   "movie/addComment",
    async (payload, thunkAPI) => {
-      try {
-         await axios.post('http://localhost:3001/comments', payload);
-         return thunkAPI.fulfillWithValue(payload);
-      } catch (error) {
-         return thunkAPI.rejectWithValue(error);
-      }
+       try {
+           console.log(payload)
+           await axios.post('http://localhost:3001/comments/', payload)
+           return thunkAPI.fulfillWithValue(payload)
+       } catch (error) {
+           return thunkAPI.rejectWithValue(error)
+       }
    }
-);
+)
 
 export const __getCommentById = createAsyncThunk(
    'movie/getComment',
@@ -63,21 +64,25 @@ export const commentsSlice = createSlice({
       },
       [__addComment.pending]: (state) => {
          state.isLoading = true;
-      },
-      [__addComment.fulfilled]: (state, action) => {
+         //pending 진행중
+     },
+     [__addComment.fulfilled]: (state, action) => {
          state.isLoading = false;
-         state.comments = [...state.comments, action.payload];
-      },
-      [__addComment.pending]: (state, action) => {
+         console.log(action.payload)
+         state.comments = [...state.comments, action.payload]
+         //서버로 부터 응답값 성공한 거 리덕스에 집어넣느다
+         //
+     },
+     [__addComment.rejected]: (state, action) => {
          state.isLoading = false;
-         state.error = action.payload;
-      },
+         state.error = action.payload
+     },
       [__getCommentById.pending]: (state) => {
          state.isLoading = true;
       },
       [__getCommentById.fulfilled]: (state, action) => {
          state.isLoading = false;
-         state.comments = action.payload;
+         state.comment = action.payload;
       },
       [__getCommentById.pending]: (state, action) => {
          state.isLoading = false;

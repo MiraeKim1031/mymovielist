@@ -32,15 +32,17 @@ export const __deleteMovies = createAsyncThunk(
 )
 
 export const __completeMovies = createAsyncThunk(
-    'movies/completeMovies',
-    async(payload, thunkAPI) => {
+    'movie/completeMovies',
+    async (payload, thunkAPI) => {
         try {
-            axios.patch(`http://localhost:3001/movies/${payload.id}`, {isDone: !payload.isDone});
+            console.log(payload)
+            axios.patch(`http://localhost:3001/movies/${payload.id}`, { isDone: !payload.isDone });
             return thunkAPI.fulfillWithValue(payload);
         } catch (error) {
             return thunkAPI.rejectWithValue(error);
-    }}
-)  
+        }
+    }
+)
 
 const MoviesSlice = createSlice({
     name: 'movies',
@@ -63,7 +65,7 @@ const MoviesSlice = createSlice({
         },
         [__deleteMovies.fulfilled]: (state, action) => {
             state.isLoading = false;
-            state.movies = state.movies.filter((movie)=> movie.id !== action.payload)
+            state.movies = state.movies.filter((movie) => movie.id !== action.payload)
         },
         [__deleteMovies.rejected]: (state, action) => {
             state.isLoading = false;
@@ -74,7 +76,7 @@ const MoviesSlice = createSlice({
         },
         [__completeMovies.fulfilled]: (state, action) => {
             state.isLoading = false;
-            state.movies = state.movies.map((movie)=> movie.id === action.payload.id ? {...movie, isDone: ! movie.isDone} : movie); 
+            state.movies = state.movies.map((movie) => movie.id === action.payload.id ? { ...movie, isDone: !movie.isDone } : movie);
         },
         [__completeMovies.rejected]: (state, action) => {
             state.isLoading = false;
@@ -83,5 +85,5 @@ const MoviesSlice = createSlice({
     },
 });
 
-export const {} = MoviesSlice.actions;
+export const { } = MoviesSlice.actions;
 export default MoviesSlice.reducer;

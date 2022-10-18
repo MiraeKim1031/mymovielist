@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import styled from 'styled-components';
-import Comments from './Comments';
-import { __addComment } from '../redux/modules/commentsSlice';
 import { useParams } from 'react-router-dom';
-
-const Comment = ({ children }) => {
+import styled from 'styled-components';
+import { __addComment } from '../redux/modules/commentsSlice';
+const Comment = () => {
    const { id } = useParams();
-   const [commentOpen, setCommentOpen] = useState(false);
+   const [open, setOpen] = useState(false);
    const dispatch = useDispatch();
    const [comment, setComment] = useState({
       id: 0,
@@ -16,74 +14,107 @@ const Comment = ({ children }) => {
       commentBody: '',
    });
 
-   const onCommentSubmitHandler = () => {
+   const commentOnsumitHandler = () => {
       dispatch(__addComment(comment));
    };
 
    return (
-      <CommentArea commentOpen={commentOpen}>
-         <CommentBtn
-            type='button'
-            onClick={() => {
-               setCommentOpen((commentOpen) => !commentOpen);
-            }}>
-            {commentOpen ? '눌러서 댓글 내리기' : '눌러서 댓글 보기'}
-         </CommentBtn>
-         <CommentAddForm>
-            <form
-               onSubmit={(e) => {
-                  e.preventDefault();
-                  onCommentSubmitHandler(comment);
+      <>
+         <Wrap open={open}>
+            <div
+               onClick={() => {
+                  setOpen((open) => !open);
                }}>
-               <input
-                  type='text'
-                  onChange={(ev) => {
-                     const { value } = ev.target;
-                     setComment({
-                        ...comment,
-                        commentAuthor: value,
-                     });
-                  }}
-               />
-               <input
-                  type='text'
-                  onChange={(ev) => {
-                     const { value } = ev.target;
-                     setComment({
-                        ...comment,
-                        commentBody: value,
-                     });
-                  }}
-               />
-               <button>추가</button>
-            </form>
-         </CommentAddForm>
-         <Comments>{children}</Comments>
-      </CommentArea>
+               {open ? '눌러서 댓글 내리기' : '눌러서 댓글 보기'}
+            </div>
+            <wrap>
+               <Btnbox>
+                  <form
+                     onSubmit={(e) => {
+                        e.preventDefault();
+                        commentOnsumitHandler(comment);
+                     }}>
+                     <input
+                        type='text'
+                        placeholder='이름'
+                        onChange={(e) => {
+                           const { value } = e.target;
+                           setComment({
+                              ...comment,
+                              commentAuthor: value,
+                           });
+                        }}
+                     />
+                     <input
+                        type='text'
+                        placeholder='내용'
+                        onChange={(e) => {
+                           const { value } = e.target;
+                           setComment({
+                              ...comment,
+                              commentBody: value,
+                           });
+                        }}
+                     />
+                     <button>추가하기</button>
+                  </form>
+               </Btnbox>
+            </wrap>
+         </Wrap>
+      </>
    );
 };
 
 export default Comment;
 
-const CommentArea = styled.div`
-   height: ${({ commentOpen }) => (commentOpen ? '300px' : '50px')};
-   position: absolute;
-   bottom: 0px;
-   left: 0px;
+const Wrap = styled.div`
    width: 100%;
-   background-color: #fff;
+   background-color: white;
+   height: ${({ open }) => (open ? '200px' : '30px')};
+   position: absolute;
+   bottom: 0;
+   left: 0;
    transition: height 400ms ease-in-out;
-   width: 90%;
-   font-size: large;
-   cursor: pointer;
-   border-top: 1px solid #e2e2e2;
-   padding: 10px;
+   > div {
+      position: fixed;
+      width: 100%;
+      background-color: cadetblue;
+      height: 30px;
+      line-height: 30px;
+      color: white;
+      text-align: center;
+   }
+   overflow: scroll;
 `;
 
-const CommentBtn = styled.div`
-   height: 90px;
-`;
-
-const CommentAddForm = styled.div`
-   height: -70px;
+const Btnbox = styled.div`
+   form {
+      display: flex;
+      margin-top: 60px;
+      justify-content: space-evenly;
+   }
+   input {
+      border: 2px solid cadetblue;
+      border-radius: 5px;
+      height: 20px;
+   }
+   input:nth-child(2) {
+      width: 400px;
+   }
+   input:focus {
+      outline: none;
+   }
+   button {
+      width: 200px;
+      height: 26px;
+      background-color: cadetblue;
+      color: white;
+      border: none;
+      border-radius: 5px;
+   }
+   button:hover {
+      opacity: 0.8;
+      color: black;
+      cursor: pointer;
+   }
 `;

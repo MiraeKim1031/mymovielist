@@ -1,14 +1,22 @@
-import React, { Children, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import styled from 'styled-components';
+import React from 'react';
 import Layout from '../components/Layout';
-import { __getMovie } from '../redux/modules/movieSlice';
+import styled from 'styled-components';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { __addMovie, __getMovie } from '../redux/modules/movieSlice';
 import Comment from '../components/Comment';
 
 const Page = () => {
    const { id } = useParams();
+   const navigate = useNavigate();
+   console.log(id);
+
+   const [isEdit, setEdit] = useState(false);
+   const [input, setInput] = useState();
    const { isLoading, error, movie } = useSelector((state) => state.movie);
+   console.log(movie);
    const dispatch = useDispatch();
 
    useEffect(() => {
@@ -16,64 +24,119 @@ const Page = () => {
    }, [dispatch]);
 
    if (isLoading) {
-      return <div> 로딩 중 ... </div>;
+      return <div>로딩중</div>;
    }
 
    if (error) {
-      return <div> {error.message} </div>;
+      return <div>{error.mesasage}</div>;
    }
+
+   const onClickChangeHandler = () => {
+      if (input.trim() === '') {
+         return alert('텍스트를 입력하세요');
+      }
+      dispatch(__addMovie({ ...movie, body: input }));
+      setEdit(false);
+   };
+
+   console.log(movie);
 
    return (
       <Layout>
-         <PageContent>
-            <div>
-               <ContentFirstLine>Movie No. {movie.id}</ContentFirstLine>
-               <h2>{movie.title}</h2>
-               <p>{movie.body}</p>
-               ✏️ {movie.author}
-            </div>
-            <div>
-               <Btns>
-                  <PageBtn>이전으로</PageBtn>
-                  {movie.isDone === false ? <PageBtn>수정하기</PageBtn> : null}
-               </Btns>
-               <Comment>{Children}</Comment>
-            </div>
-         </PageContent>
+         <div>Movie No.{movie.id}</div>
+         {isEdit ? (
+            <Wrap>
+               <ContentWrap>
+                  <span>제목 : {movie.title}</span>
+                  <Content>
+                     {!isEdit ? (
+                        <div>{movie.body}</div>
+                     ) : (
+                        <textarea
+                           value={input}
+                           placeholder={'내용을 입력해주세요'}
+                           onChange={(e) => {
+                              setInput(e.target.value);
+                           }}></textarea>
+                     )}
+                  </Content>
+               </ContentWrap>
+               <Btn>
+                  <button
+                     onClick={() => {
+                        navigate('/movies');
+                     }}>
+                     이전으로
+                  </button>
+                  <button onClick={onClickChangeHandler}>저장하기</button>
+               </Btn>
+            </Wrap>
+         ) : (
+            <Wrap>
+               <ContentWrap>
+                  <span>제목 : {movie.title}</span>
+                  <Content>
+                     {!isEdit ? (
+                        <div>{movie.body}</div>
+                     ) : (
+                        <textarea
+                           onChange={(e) => {
+                              setInput(e.target.value);
+                           }}></textarea>
+                     )}
+                  </Content>
+               </ContentWrap>
+               <Btn>
+                  <button
+                     onClick={() => {
+                        navigate('/movies');
+                     }}>
+                     이전으로
+                  </button>
+                  {movie.isDone === false ? (
+                     <button onClick={() => setEdit(true)}>수정하기</button>
+                  ) : null}
+               </Btn>
+            </Wrap>
+         )}
+         <Comment />
       </Layout>
    );
 };
 
 export default Page;
 
-const PageContent = styled.div`
-   justify-content: space-between;
-   display: flex;
-   flex-direction: column;
-   height: 500px;
-`;
-
-const ContentFirstLine = styled.div`
-   font-size: 20px;
-   color: #738cee;
-   border-bottom: 1px solid #e2e2e2;
-`;
-
-const Btns = styled.div`
-   display: flex;
+const Wrap = styled.div`
+   height: 100%;
+   padding: 30px;
+   align-items: center;
    justify-content: center;
+   gap: 40px;
+`;
+const ContentWrap = styled.div`
+   text-align: center;
+   width: 50%;
+   margin: 0 auto;
 `;
 
-const PageBtn = styled.button`
-   background-color: #d0d6ed;
-   width: auto;
-   min-width: 200px;
-   height: 40px;
-   border-radius: 20px;
-   cursor: pointer;
-   font-size: 20px;
-   border: 1px solid transparent;
-   margin-bottom: 10px;
-   margin-left: 10px;
+const Content = styled.div`
+   width: 100%;
+   height: 300px;
+   border: 3px solid cadetblue;
+   border-radius: 15px;
+   margin: 50px auto;
+   line-height: 300px;
 `;
 
+const Btn = styled.div`
+   width: 300px;
+   margin: 50px auto;
+   display: flex;
+   justify-content: space-around;
+   button {
+      width: 90px;
+      height: 30px;
+      border-radius: 10px;
+      cursor: pointer;
+   }
+`;
