@@ -14,9 +14,10 @@ const AddMovie = () => {
   //   };
 
   const [movie, setMovie] = useState({
+    movieId: 0,
     author: "",
     title: "",
-    content: "",
+    body: "",
     idDone: "false",
   });
 
@@ -95,7 +96,7 @@ const AddMovie = () => {
         <Stwrap>
           <Stlabel>내용</Stlabel>
           <Stinputs
-            {...register("content", {
+            {...register("body", {
               required: "이름을 입력해주세요.",
               minLength: {
                 value: 3,
@@ -111,11 +112,11 @@ const AddMovie = () => {
               const { value } = ev.target;
               setMovie({
                 ...movie,
-                content: value,
+                body: value,
               });
             }}
           />
-          <Warn>{errors?.content?.message}</Warn>
+          <Warn>{errors?.body?.message}</Warn>
         </Stwrap>
         <Stbutton>추가하기</Stbutton>
       </Stform>

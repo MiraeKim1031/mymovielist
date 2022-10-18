@@ -13,17 +13,6 @@ export const __addMovie = createAsyncThunk(
   }
 );
 
-//export const __addMovie = createAsyncThunk();
-// export const addList = createAsyncThunk(
-//   "ADD_MOVIE", async (data) => {
-//   const response = await axios.post("http://localhost:3001/movies", data);
-//   return response.data;
-// });
-// const fetchmovies = async () => {
-//   const { data } = await axios.get("http://localhost:3001/movies");
-//   setMovies(data);
-// };
-
 const initialState = {
   movies: [],
   error: null,
