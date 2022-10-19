@@ -1,13 +1,18 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import styled from "styled-components";
-import Comments from "./Comments";
-import { __addComment } from "../redux/modules/commentsSlice";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import styled from "styled-components";
+import { __addComment } from "../redux/modules/commentsSlice";
+import {
+  __getComments,
+  __updateComment,
+  __deleteComment,
+} from "../redux/modules/commentsSlice";
 
-const Comment = ({ children }) => {
+const Comment = () => {
   const { id } = useParams();
-  const [commentOpen, setCommentOpen] = useState(false);
+
+  const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const [comment, setComment] = useState({
     id: 0,
@@ -16,76 +21,161 @@ const Comment = ({ children }) => {
     commentBody: "",
   });
 
-  const onCommentSubmitHandler = () => {
+  const commentOnsumitHandler = () => {
     dispatch(__addComment(comment));
   };
 
+  //여기부터 추가함
+
+  //삭제기능 시작//
+  const fnDeleteCommentHandler = () => {
+    const commentID = 18;
+    const result = window.confirm("정말로 삭제하시겠습니까?");
+    if (result) {
+      if (commentID == 18) {
+        //const dispatch = useDispatch();
+        dispatch(__deleteComment(commentID));
+      }
+    } else {
+      return;
+    }
+  };
+  //삭제기능 끝//
+
+  //수정기능시작//
+
+  const [isEdit, setEdit] = useState(false);
+  const [input, setInput] = useState();
+
+  const onClickChangeHandler = () => {
+    if (input.trim() === "") {
+      return alert("텍스트를 입력하세요");
+    }
+    dispatch(__updateComment({ ...comment, body: input }));
+    setEdit(false);
+  };
+
+  //수정기능끝//
   return (
-    <CommentArea commentOpen={commentOpen}>
-      <CommentBtn
-        type="button"
-        onClick={() => {
-          setCommentOpen((commentOpen) => !commentOpen);
-        }}
-      >
-        {commentOpen ? "눌러서 댓글 내리기" : "눌러서 댓글 보기"}
-      </CommentBtn>
-      <CommentAddForm>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            onCommentSubmitHandler(comment);
+    <>
+      <Wrap open={open}>
+        <div
+          onClick={() => {
+            setOpen((open) => !open);
           }}
         >
-          <input
-            type="text"
-            onChange={(ev) => {
-              const { value } = ev.target;
-              setComment({
-                ...comment,
-                commentAuthor: value,
-              });
-            }}
-          />
-          <input
-            type="text"
-            onChange={(ev) => {
-              const { value } = ev.target;
-              setComment({
-                ...comment,
-                commentBody: value,
-              });
-            }}
-          />
-          <button>추가</button>
-        </form>
-      </CommentAddForm>
-      <Comments>{children}</Comments>
-    </CommentArea>
+          {open ? "눌러서 댓글 내리기" : "눌러서 댓글 보기"}
+        </div>
+        <wrap>
+          <Btnbox>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                commentOnsumitHandler(comment);
+              }}
+            >
+              <input
+                type="text"
+                placeholder="이름"
+                onChange={(e) => {
+                  const { value } = e.target;
+                  setComment({
+                    ...comment,
+                    commentAuthor: value,
+                  });
+                }}
+              />
+              <input
+                type="text"
+                placeholder="내용"
+                onChange={(e) => {
+                  const { value } = e.target;
+                  setComment({
+                    ...comment,
+                    commentBody: value,
+                  });
+                }}
+              />
+              <button>추가하기</button>
+            </form>
+          </Btnbox>
+
+          <div>
+            {/* 삭제버튼 */}
+            <button onClick={fnDeleteCommentHandler}>삭제하기</button>
+            {/* 수정부분 시작 */}
+            <div>
+              {!isEdit ? (
+                <div>{comment.body}</div>
+              ) : (
+                <textarea
+                  onChange={(e) => {
+                    setInput(e.target.value);
+                  }}
+                ></textarea>
+              )}
+            </div>
+            <button onClick={() => setEdit(true)}>수정하기</button>
+            <button onClick={onClickChangeHandler}>저장하기</button>
+
+            {/* 수정부분 끝*/}
+          </div>
+        </wrap>
+      </Wrap>
+    </>
   );
 };
 
 export default Comment;
 
-const CommentArea = styled.div`
-  height: ${({ commentOpen }) => (commentOpen ? "300px" : "50px")};
-  position: absolute;
-  bottom: 0px;
-  left: 0px;
+const Wrap = styled.div`
   width: 100%;
-  background-color: #fff;
+  background-color: white;
+  height: ${({ open }) => (open ? "200px" : "30px")};
+  position: absolute;
+  bottom: 0;
+  left: 0;
   transition: height 400ms ease-in-out;
-  width: 90%;
-  font-size: large;
-  cursor: pointer;
-  border-top: 1px solid #e2e2e2;
-  padding: 10px;
+  > div {
+    position: fixed;
+    width: 100%;
+    background-color: cadetblue;
+    height: 30px;
+    line-height: 30px;
+    color: white;
+    text-align: center;
+  }
+  overflow: scroll;
 `;
 
-const CommentBtn = styled.div`
-  height: 90px;
-`;
-
-const CommentAddForm = styled.div`
-  height: -70px;
+const Btnbox = styled.div`
+  form {
+    display: flex;
+    margin-top: 60px;
+    justify-content: space-evenly;
+  }
+  input {
+    border: 2px solid cadetblue;
+    border-radius: 5px;
+    height: 20px;
+  }
+  input:nth-child(2) {
+    width: 400px;
+  }
+  input:focus {
+    outline: none;
+  }
+  button {
+    width: 200px;
+    height: 26px;
+    background-color: cadetblue;
+    color: white;
+    border: none;
+    border-radius: 5px;
+  }
+  button:hover {
+    opacity: 0.8;
+    color: black;
+    cursor: pointer;
+  }
 `;
