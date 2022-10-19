@@ -16,17 +16,17 @@ const Movie = ({ movieData }) => {
       dispatch(__completeMovies(movieData));
    };
 
-   const onViewHandler = () => {
-      navigate(`/page/${movieData.id}`)
+   const onViewHandler = () => { 
+      navigate(`/page/${movieData.id}`);
    }
 
    return (
       <MovieBox>
-         <div>
+         <UserInfo>
             ✏️{movieData.author}
             <h2>{movieData.title}</h2>
-            <span>{movieData.body}</span>
-         </div>
+            <Lines>{movieData.body}</Lines>
+         </UserInfo>
          <Btns>
             <Btn onClick={onClickDeleteHandler}>🗑</Btn>
             <Btn onClick={onClickChangeHandler}>
@@ -44,19 +44,33 @@ export default Movie;
 
 const MovieBox = styled.div`
    background-color: transparent;
-   width: 450px;
-   height: auto;
+   width: 400px;
+   height: 110px;
    border-radius: 15px;
    border: 2px solid black;
    display: flex;
    justify-content: space-between;
    margin-bottom: 10px;
    box-sizing: content-box;
-   overflow: hidden;
+   overflow: auto;
    padding: 15px 20px;
 `;
+
+const Lines = styled.p`
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+`
+
+const UserInfo = styled.div`
+   overflow: hidden;
+   text-overflow: ellipsis;
+   word-break: break-all;
+`
+
 const Btns = styled.div`
     width: 30px;
+    margin-left: 10px;
 `;
 
 const Btn = styled.button`
@@ -68,3 +82,5 @@ const Btn = styled.button`
    margin-bottom: 5px;
    border: 1px solid transparent;
 `;
+
+

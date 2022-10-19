@@ -52,7 +52,6 @@ export const __deleteComment = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       console.log("삭제할거야" + payload);
-
       //await axios.delete(`http://localhost:3001/comments?id=${payload}`);
       await axios.delete(`http://localhost:3001/comments/${payload}`);
       return thunkAPI.fulfillWithValue(payload);
@@ -66,10 +65,8 @@ export const __updateComment = createAsyncThunk(
   "movie/updateComment",
   async (payload, thunkAPI) => {
     try {
-      axios.patch(
-        `http://localhost:3001/comments?movieId=${payload.commentId}`,
-        payload.commentId
-      );
+      console.log("수정" + payload);
+      axios.patch(`http://localhost:3001/comments/${payload}`, payload);
       return thunkAPI.fulfillWithValue(payload);
     } catch (e) {
       return thunkAPI.rejectWithValue(e);
@@ -95,13 +92,10 @@ export const commentsSlice = createSlice({
     },
     [__addComment.pending]: (state) => {
       state.isLoading = true;
-      //pending 진행중
     },
     [__addComment.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.comments = [...state.comments, action.payload];
-      //서버로 부터 응답값 성공한 거 리덕스에 집어넣느다
-      //
     },
     [__addComment.rejected]: (state, action) => {
       state.isLoading = false;
@@ -112,7 +106,7 @@ export const commentsSlice = createSlice({
     },
     [__getCommentById.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.comment = action.payload;
+      state.comments = action.payload;
     },
     [__getCommentById.pending]: (state, action) => {
       state.isLoading = false;
@@ -124,10 +118,11 @@ export const commentsSlice = createSlice({
     },
     [__deleteComment.fulfilled]: (state, action) => {
       state.isLoading = false;
-      const tpayloadet = state.data.filter(
+      console.log(state.comments);
+      const tpayloadet = state.comments.filter(
         (comment) => comment.id === action.payload
       );
-      state.data.splice(tpayloadet, 1);
+      state.comments.splice(tpayloadet, 1);
     },
     [__deleteComment.rejected]: (state, action) => {
       state.isLoading = false;

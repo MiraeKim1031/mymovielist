@@ -9,11 +9,6 @@ import Layout from "../components/Layout";
 const AddMovie = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  //   const goToMain = () => {
-  //     navigate("/movies");
-  //   };
-
   const [movie, setMovie] = useState({
     movieId: 0,
     author: "",

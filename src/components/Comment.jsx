@@ -1,67 +1,43 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { __addComment } from "../redux/modules/commentsSlice";
-import {
-  __getComments,
-  __updateComment,
-  __deleteComment,
-} from "../redux/modules/commentsSlice";
+import commentsSlice, { __addComment } from "../redux/modules/commentsSlice";
+import Comments from "./Comments";
+import { __getComments } from "../redux/modules/commentsSlice";
+import { useSelector } from "react-redux";
 
 const Comment = () => {
   const { id } = useParams();
-
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
-  const [comment, setComment] = useState({
+  const initialState = {
     id: 0,
     movieId: id,
     commentAuthor: "",
     commentBody: "",
-  });
+  };
+  const [comment, setComment] = useState(initialState);
+
+  const { isLoading, error, comments } = useSelector((state) => state.comments);
+
+  useEffect(() => {
+    dispatch(__getComments());
+  }, [dispatch]);
+
+  if (isLoading) {
+    return <div> 로딩 중 ... </div>;
+  }
+
+  if (error) {
+    return <div> {error.message} </div>;
+  }
 
   const commentOnsumitHandler = () => {
     dispatch(__addComment(comment));
+    setComment(initialState);
   };
 
-  //여기부터 추가함
-
-  //삭제기능 시작//
-  const fnDeleteCommentHandler = () => {
-    const commentID = 18;
-    const result = window.confirm("정말로 삭제하시겠습니까?");
-    if (result) {
-      if (commentID == 18) {
-        //const dispatch = useDispatch();
-        dispatch(__deleteComment(commentID));
-      }
-    } else {
-      return;
-    }
-  };
-  //삭제기능 끝//
-
-  //수정기능시작//
-
-  const [isEdit, setEdit] = useState(false);
-  const [input, setInput] = useState("");
-
-  const onClickChangeHandler = () => {
-    const commentID = 23;
-    // if (input.trim() === "") {
-    //   return alert("텍스트를 입력하세요");
-    // }
-    if (commentID == 23) {
-      console.log({ ...comment });
-      dispatch(
-        __updateComment({ ...comment, commentBody: input, id: commentID })
-      );
-      setEdit(false);
-    }
-  };
-
-  //수정기능끝//
   return (
     <>
       <Wrap open={open}>
@@ -81,6 +57,7 @@ const Comment = () => {
               }}
             >
               <input
+                value={comment.commentAuthor}
                 type="text"
                 placeholder="이름"
                 onChange={(e) => {
@@ -92,6 +69,7 @@ const Comment = () => {
                 }}
               />
               <input
+                value={comment.commentBody}
                 type="text"
                 placeholder="내용"
                 onChange={(e) => {
@@ -105,33 +83,10 @@ const Comment = () => {
               <button>추가하기</button>
             </form>
           </Btnbox>
-
-          
-
-          <div>
-            {/* 삭제버튼 */}
-            <button onClick={fnDeleteCommentHandler}>삭제하기</button>
-            {/* 수정부분 시작 */}
-            <div>
-              {!isEdit ? (
-                <div>
-                  <div>{comment.commentBody}</div>
-                  <button onClick={() => setEdit(true)}>수정하기</button>
-                </div>
-              ) : (
-                <div>
-                  <textarea
-                    onChange={(e) => {
-                      setInput(e.target.value);
-                    }}
-                  ></textarea>
-                  <button onClick={onClickChangeHandler}>저장하기</button>
-                </div>
-              )}
-            </div>
-
-            {/* 수정부분 끝*/}
-          </div>
+          {comments.map((comment) =>
+            //console.log(+id, +comment.id)
+            +id === +comment.movieId ? <Comments comment={comment} /> : null
+          )}
         </wrap>
       </Wrap>
     </>
@@ -143,7 +98,7 @@ export default Comment;
 const Wrap = styled.div`
   width: 100%;
   background-color: white;
-  height: ${({ open }) => (open ? "200px" : "30px")};
+  height: ${({ open }) => (open ? "500px" : "30px")};
   position: absolute;
   bottom: 0;
   left: 0;
@@ -190,3 +145,10 @@ const Btnbox = styled.div`
     color: black;
     cursor: pointer;
   }
+`;
+const Txt = styled.div`
+  width: 100%;
+  margin-top: 50px;
+  display: flex;
+  justify-content: space-evenly;
+`;
