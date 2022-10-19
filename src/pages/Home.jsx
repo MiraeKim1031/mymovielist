@@ -1,46 +1,68 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import Layout from "../components/Layout";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import Layout from '../components/Layout';
 
 const Home = () => {
-    const navigate = useNavigate();
+   const navigate = useNavigate();
 
-    return (
-        <Layout>
-            <font size="28"><center>보는구나, 마침내</center></font>
-            <StContainer>
-                <WriteBox onClick={()=>{navigate("/write");}}> 작성할 결심 </WriteBox>
-                <MovieBox onClick={()=>{navigate("/movies");}}> 영화 List </MovieBox>
-            </StContainer>
-        </Layout>
-    )
-}
+   return (
+      <Layout>
+         <FirstWords><h2>영화를 기록해볼까요?</h2></FirstWords>
+         <StContainer>
+            <MainBox
+               onClick={() => {
+                  navigate('/write');
+               }}>
+               <p>
+                  📝
+                  <br />
+                  작성할 결심
+               </p>
+            </MainBox>
+            <MainBox
+               onClick={() => {
+                  navigate('/movies');
+               }}>
+               <p>
+                  🎥
+                  <br />
+                  영화 리스트
+               </p>
+            </MainBox>
+         </StContainer>
+      </Layout>
+   );
+};
 
 export default Home;
 
 const StContainer = styled.div`
-    height: 100%;
-    display: flex;
-    padding: 30px;
-    align-items: center;
-    justify-content: center;
-    gap: 40px;
-`
+   height: 100%;
+   display: flex;
+   padding: 30px;
+   align-items: center;
+   justify-content: center;
+   gap: 40px;
+   font-size: 30px;
+   display: flex;
+`;
 
-const WriteBox = styled.div`
-    height: 400px;
-    width: 400px;
-    border-radius: 20px;
-    border: 2px solid #ad5f27;
-    text-align: center;
-    
-`
+const MainBox = styled.div`
+   height: 300px;
+   width: 400px;
+   border-radius: 20px;
+   border: 0.5px solid #97a8a3;
+   text-align: center;
+   cursor: pointer;
+   background-color: #f8efe4;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   color: #203148;
+`;
 
-const MovieBox = styled.div`
-    height: 400px;
-    width: 400px;
-    border: 2px solid #ad5f27;
-    border-radius: 20px;
-    text-align: center;
-`
+const FirstWords = styled.div`
+   margin-top: 60px;
+   text-align: center;
+`;

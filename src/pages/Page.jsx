@@ -5,14 +5,14 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { __addMovie, __getMovie } from "../redux/modules/MovieSlice";
+import { __addMovie, __getMovie } from "../redux/modules/movieSlice";
 import Comment from "../components/Comment";
 
 const Page = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   console.log(id);
-  //   const [modal, setModal] = useState(false);
+
   const [isEdit, setEdit] = useState(false);
   const [input, setInput] = useState();
   const { isLoading, error, movie } = useSelector((state) => state.movie);
@@ -53,6 +53,7 @@ const Page = () => {
                 <div>{movie.body}</div>
               ) : (
                 <textarea
+                  maxLength={200}
                   value={input}
                   placeholder={"내용을 입력해주세요"}
                   onChange={(e) => {
@@ -82,6 +83,7 @@ const Page = () => {
                 <div>{movie.body}</div>
               ) : (
                 <textarea
+                  maxLength={200}
                   onChange={(e) => {
                     setInput(e.target.value);
                   }}
@@ -129,7 +131,15 @@ const Content = styled.div`
   border: 3px solid cadetblue;
   border-radius: 15px;
   margin: 50px auto;
-  line-height: 300px;
+  > div {
+    height: 100%;
+  }
+  > textArea {
+    border: none;
+    width: 96%;
+    height: 99%;
+    border-radius: 15px;
+  }
 `;
 
 const Btn = styled.div`

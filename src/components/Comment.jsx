@@ -3,6 +3,8 @@ import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { __addComment } from "../redux/modules/commentsSlice";
+import Comments from "./Comments";
+
 const Comment = () => {
   const { id } = useParams();
   const [open, setOpen] = useState(false);
@@ -61,6 +63,7 @@ const Comment = () => {
               <button>추가하기</button>
             </form>
           </Btnbox>
+          <Comments></Comments>
         </wrap>
       </Wrap>
     </>
@@ -119,4 +122,10 @@ const Btnbox = styled.div`
     color: black;
     cursor: pointer;
   }
+`;
+const Txt = styled.div`
+  width: 100%;
+  margin-top: 50px;
+  display: flex;
+  justify-content: space-evenly;
 `;
