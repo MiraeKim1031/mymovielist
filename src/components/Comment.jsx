@@ -45,14 +45,20 @@ const Comment = () => {
   //수정기능시작//
 
   const [isEdit, setEdit] = useState(false);
-  const [input, setInput] = useState();
+  const [input, setInput] = useState("");
 
   const onClickChangeHandler = () => {
-    if (input.trim() === "") {
-      return alert("텍스트를 입력하세요");
+    const commentID = 23;
+    // if (input.trim() === "") {
+    //   return alert("텍스트를 입력하세요");
+    // }
+    if (commentID == 23) {
+      console.log({ ...comment });
+      dispatch(
+        __updateComment({ ...comment, commentBody: input, id: commentID })
+      );
+      setEdit(false);
     }
-    dispatch(__updateComment({ ...comment, body: input }));
-    setEdit(false);
   };
 
   //수정기능끝//
@@ -100,23 +106,29 @@ const Comment = () => {
             </form>
           </Btnbox>
 
+          
+
           <div>
             {/* 삭제버튼 */}
             <button onClick={fnDeleteCommentHandler}>삭제하기</button>
             {/* 수정부분 시작 */}
             <div>
               {!isEdit ? (
-                <div>{comment.body}</div>
+                <div>
+                  <div>{comment.commentBody}</div>
+                  <button onClick={() => setEdit(true)}>수정하기</button>
+                </div>
               ) : (
-                <textarea
-                  onChange={(e) => {
-                    setInput(e.target.value);
-                  }}
-                ></textarea>
+                <div>
+                  <textarea
+                    onChange={(e) => {
+                      setInput(e.target.value);
+                    }}
+                  ></textarea>
+                  <button onClick={onClickChangeHandler}>저장하기</button>
+                </div>
               )}
             </div>
-            <button onClick={() => setEdit(true)}>수정하기</button>
-            <button onClick={onClickChangeHandler}>저장하기</button>
 
             {/* 수정부분 끝*/}
           </div>
@@ -178,4 +190,3 @@ const Btnbox = styled.div`
     color: black;
     cursor: pointer;
   }
-`;

@@ -51,7 +51,7 @@ export const __deleteComment = createAsyncThunk(
   "movie/deleteComment",
   async (payload, thunkAPI) => {
     try {
-      console.log("삭제할거야ㅐ" + payload);
+      console.log("삭제할거야" + payload);
 
       //await axios.delete(`http://localhost:3001/comments?id=${payload}`);
       await axios.delete(`http://localhost:3001/comments/${payload}`);
@@ -66,7 +66,10 @@ export const __updateComment = createAsyncThunk(
   "movie/updateComment",
   async (payload, thunkAPI) => {
     try {
-      axios.patch(`http://localhost:3001/comments?movieId=${payload}`, payload);
+      axios.patch(
+        `http://localhost:3001/comments?movieId=${payload.commentId}`,
+        payload.commentId
+      );
       return thunkAPI.fulfillWithValue(payload);
     } catch (e) {
       return thunkAPI.rejectWithValue(e);
