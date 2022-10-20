@@ -11,7 +11,9 @@ export const __getMovie = createAsyncThunk(
   "movie/getMovie",
   async (payload, thunkAPI) => {
     try {
-      const data = await axios.get(`${process.env.REACT_APP_MOVIES}${payload}`);
+      const data = await axios.get(
+        `${process.env.REACT_APP_MOVIES}/${payload}`
+      );
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -35,7 +37,7 @@ export const __addMovie = createAsyncThunk(
   "movie/addMovie",
   async (payload, thunkAPI) => {
     try {
-      await axios.patch(`${process.env.REACT_APP_MOVIES}${payload.id}`, {
+      await axios.patch(`${process.env.REACT_APP_MOVIES}/${payload.id}`, {
         body: payload.body,
       });
       return thunkAPI.fulfillWithValue(payload);

@@ -1,7 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import dotenv from "dotenv";
-dotenv.config();
 
 const initialState = {
   comments: [],
@@ -13,7 +11,7 @@ export const __getComments = createAsyncThunk(
   "movies/getComments",
   async (_, thunkAPI) => {
     try {
-      const data = await axios.get(`${process.env.REACT_APP_COMMENTS}`);
+      const data = await axios.get(process.env.REACT_APP_COMMENTS);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
