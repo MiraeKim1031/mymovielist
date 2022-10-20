@@ -12,8 +12,7 @@ export const __getMovies = createAsyncThunk(
   "movies/getMovies",
   async (payload, thunkAPI) => {
     try {
-      console.log("*********여기는겟무비");
-      const data = await axios.get(` ${process.env.REACT_APP_MOVIES}`);
+      const data = await axios.get(process.env.REACT_APP_MOVIES);
       // const data = await axios.get(
       //   "https://agile-bastion-29157.herokuapp.com/movies"
       // );

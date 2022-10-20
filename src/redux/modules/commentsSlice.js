@@ -23,7 +23,7 @@ export const __addComment = createAsyncThunk(
   "movie/addComment",
   async (payload, thunkAPI) => {
     try {
-      await axios.post(`${process.env.REACT_APP_COMMENTS}`, payload);
+      await axios.post(process.env.REACT_APP_COMMENTS, payload);
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -50,7 +50,6 @@ export const __deleteComment = createAsyncThunk(
   "movie/deleteComment",
   async (payload, thunkAPI) => {
     try {
-      console.log("삭제할거야" + payload);
       await axios.delete(`${process.env.REACT_APP_COMMENTS}/${payload}`);
       return thunkAPI.fulfillWithValue(payload);
     } catch (e) {

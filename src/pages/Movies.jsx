@@ -10,11 +10,9 @@ const Movies = () => {
   const { isLoading, error, movies } = useSelector((state) => state.movies);
   const dispatch = useDispatch();
   useLoading(isLoading, error);
-  console.log("*********여기는무비페이지");
 
   useEffect(() => {
     dispatch(__getMovies());
-    console.log("*********여기는무비페이지의 useEffect");
   }, [dispatch]);
 
   return (
