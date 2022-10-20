@@ -11,9 +11,7 @@ export const __getMovie = createAsyncThunk(
   "movie/getMovie",
   async (payload, thunkAPI) => {
     try {
-      const data = await axios.get(
-        `${process.env.REACT_APP_HEROKU}/movies/${payload}`
-      );
+      const data = await axios.get(`${process.env.REACT_APP_MOVIES}${payload}`);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -25,7 +23,7 @@ export const __addMovieThunk = createAsyncThunk(
   "movie/addMovie",
   async (payload, thunkAPI) => {
     try {
-      axios.post(`${process.env.REACT_APP_HEROKU}/movies`, payload);
+      axios.post(`${process.env.REACT_APP_MOVIES}`, payload);
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -37,12 +35,9 @@ export const __addMovie = createAsyncThunk(
   "movie/addMovie",
   async (payload, thunkAPI) => {
     try {
-      await axios.patch(
-        `${process.env.REACT_APP_HEROKU}/movies/${payload.id}`,
-        {
-          body: payload.body,
-        }
-      );
+      await axios.patch(`${process.env.REACT_APP_MOVIES}${payload.id}`, {
+        body: payload.body,
+      });
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);

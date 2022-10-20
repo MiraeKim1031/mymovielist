@@ -11,7 +11,7 @@ export const __getComments = createAsyncThunk(
   "movies/getComments",
   async (_, thunkAPI) => {
     try {
-      const data = await axios.get(`${process.env.REACT_APP_HEROKU}/comments`);
+      const data = await axios.get(`${process.env.REACT_APP_COMMENTS}`);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -23,7 +23,7 @@ export const __addComment = createAsyncThunk(
   "movie/addComment",
   async (payload, thunkAPI) => {
     try {
-      await axios.post(`${process.env.REACT_APP_HEROKU}/comments/`, payload);
+      await axios.post(`${process.env.REACT_APP_COMMENTS}`, payload);
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -36,7 +36,7 @@ export const __getCommentById = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const data = await axios.get(
-        `${process.env.REACT_APP_HEROKU}/comments?movieId=${payload}`
+        `${process.env.REACT_APP_COMMENTS}?movieId=${payload}`
       );
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
@@ -51,7 +51,7 @@ export const __deleteComment = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       console.log("삭제할거야" + payload);
-      await axios.delete(`${process.env.REACT_APP_HEROKU}/comments/${payload}`);
+      await axios.delete(`${process.env.REACT_APP_COMMENTS}/${payload}`);
       return thunkAPI.fulfillWithValue(payload);
     } catch (e) {
       return thunkAPI.rejectWithValue(e.code);
@@ -63,12 +63,9 @@ export const __updateComment = createAsyncThunk(
   "movie/updateComment",
   async (payload, thunkAPI) => {
     try {
-      axios.patch(
-        `${process.env.REACT_APP_HEROKU}/comments/${payload.commentId}`,
-        {
-          commentBody: payload.input,
-        }
-      );
+      axios.patch(`${process.env.REACT_APP_COMMENTS}/${payload.commentId}`, {
+        commentBody: payload.input,
+      });
       return thunkAPI.fulfillWithValue(payload);
     } catch (e) {
       return thunkAPI.rejectWithValue(e);

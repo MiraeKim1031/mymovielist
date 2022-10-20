@@ -13,11 +13,10 @@ export const __getMovies = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       console.log("*********여기는겟무비");
-      //agile-bastion-29157.herokuapp.com
-      //const data = await axios.get(`${process.env.REACT_APP_HEROKU}/movies`);
-      const data = await axios.get(
-        "https://agile-bastion-29157.herokuapp.com/movies"
-      );
+      const data = await axios.get(`${process.env.REACT_APP_MOVIES}`);
+      // const data = await axios.get(
+      //   "https://agile-bastion-29157.herokuapp.com/movies"
+      // );
 
       https: return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
@@ -30,7 +29,7 @@ export const __deleteMovies = createAsyncThunk(
   "movies/deleteMovies",
   async (payload, thunkAPI) => {
     try {
-      axios.delete(`${process.env.REACT_APP_HEROKU}/movies/${payload}`);
+      axios.delete(`${process.env.REACT_APP_MOVIES}/${payload}`);
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -42,7 +41,7 @@ export const __completeMovies = createAsyncThunk(
   "movies/completeMovies",
   async (payload, thunkAPI) => {
     try {
-      axios.patch(`${process.env.REACT_APP_HEROKU}/movies/${payload.id}`, {
+      axios.patch(`${process.env.REACT_APP_MOVIES}/${payload.id}`, {
         isDone: !payload.isDone,
       });
       return thunkAPI.fulfillWithValue(payload);
