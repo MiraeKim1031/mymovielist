@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import dotenv from "dotenv";
+dotenv.config();
 
 const initialState = {
   movies: [],
