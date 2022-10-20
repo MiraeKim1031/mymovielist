@@ -19,7 +19,7 @@ const AddMovie = () => {
 
   const onAddHandler = (movie) => {
     dispatch(__addMovieThunk(movie));
-    navigate("/movies");
+    navigate("/moviepage");
   };
 
   const {
