@@ -181,8 +181,8 @@ const Stform = styled.form`
   justify-content: center;
   top: 50%;
   left: 50%;
-  position: absolute;
-  transform: translate(-50%, -50%);
+  /* position: absolute;
+  transform: translate(-50%, -50%); */
 `;
 
 const Stinput = styled.input`
