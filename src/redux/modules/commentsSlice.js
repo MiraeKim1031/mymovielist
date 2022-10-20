@@ -11,7 +11,10 @@ export const __getComments = createAsyncThunk(
   "movies/getComments",
   async (_, thunkAPI) => {
     try {
-      const data = await axios.get(`${process.env.REACT_APP_COMMENTS}`);
+      // const data = await axios.get(`${process.env.REACT_APP_COMMENTS}`);
+      const data = await axios.get(
+        "https://agile-bastion-29157.herokuapp.com/comments"
+      );
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -23,7 +26,11 @@ export const __addComment = createAsyncThunk(
   "movie/addComment",
   async (payload, thunkAPI) => {
     try {
-      await axios.post(`${process.env.REACT_APP_COMMENTS}`, payload);
+      //await axios.post(`${process.env.REACT_APP_COMMENTS}`, payload);
+      await axios.post(
+        "https://agile-bastion-29157.herokuapp.com/comments",
+        payload
+      );
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -35,8 +42,11 @@ export const __getCommentById = createAsyncThunk(
   "movie/getComment",
   async (payload, thunkAPI) => {
     try {
+      // const data = await axios.get(
+      //   `${process.env.REACT_APP_COMMENTS}?movieId=${payload}`
+      // );
       const data = await axios.get(
-        `${process.env.REACT_APP_COMMENTS}?movieId=${payload}`
+        `"https://agile-bastion-29157.herokuapp.com/comments"?movieId=${payload}`
       );
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
@@ -50,7 +60,10 @@ export const __deleteComment = createAsyncThunk(
   "movie/deleteComment",
   async (payload, thunkAPI) => {
     try {
-      await axios.delete(`${process.env.REACT_APP_COMMENTS}/${payload}`);
+      // await axios.delete(`${process.env.REACT_APP_COMMENTS}/${payload}`);
+      await axios.delete(
+        `"https://agile-bastion-29157.herokuapp.com/comments"/${payload}`
+      );
       return thunkAPI.fulfillWithValue(payload);
     } catch (e) {
       return thunkAPI.rejectWithValue(e.code);
@@ -62,9 +75,15 @@ export const __updateComment = createAsyncThunk(
   "movie/updateComment",
   async (payload, thunkAPI) => {
     try {
-      axios.patch(`${process.env.REACT_APP_COMMENTS}/${payload.commentId}`, {
-        commentBody: payload.input,
-      });
+      // axios.patch(`${process.env.REACT_APP_COMMENTS}/${payload.commentId}`, {
+      //   commentBody: payload.input,
+      // });
+      axios.patch(
+        `"https://agile-bastion-29157.herokuapp.com/comments"/${payload.commentId}`,
+        {
+          commentBody: payload.input,
+        }
+      );
       return thunkAPI.fulfillWithValue(payload);
     } catch (e) {
       return thunkAPI.rejectWithValue(e);

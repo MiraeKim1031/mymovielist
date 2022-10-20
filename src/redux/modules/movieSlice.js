@@ -25,7 +25,8 @@ export const __addMovieThunk = createAsyncThunk(
   "movie/addMovie",
   async (payload, thunkAPI) => {
     try {
-      axios.post(`${process.env.REACT_APP_MOVIES}`, payload);
+      axios.post("https://agile-bastion-29157.herokuapp.com/movies", payload);
+      //axios.post(`${process.env.REACT_APP_MOVIES}`, payload);
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -37,9 +38,15 @@ export const __addMovie = createAsyncThunk(
   "movie/addMovie",
   async (payload, thunkAPI) => {
     try {
-      await axios.patch(`${process.env.REACT_APP_MOVIES}/${payload.id}`, {
-        body: payload.body,
-      });
+      // await axios.patch(`${process.env.REACT_APP_MOVIES}/${payload.id}`, {
+      //   body: payload.body,
+      // });
+      await axios.patch(
+        `https://agile-bastion-29157.herokuapp.com/movies/${payload.id}`,
+        {
+          body: payload.body,
+        }
+      );
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);

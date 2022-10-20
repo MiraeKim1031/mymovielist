@@ -48,7 +48,7 @@ export default Movie;
 const MovieBox = styled.div`
   background-color: transparent;
   width: 400px;
-  height: 110px;
+  height: 200x;
   border-radius: 15px;
   border: 2px solid black;
   display: flex;
@@ -57,6 +57,10 @@ const MovieBox = styled.div`
   box-sizing: content-box;
   overflow: auto;
   padding: 15px 20px;
+  background: linear-gradient(#b8fae5, #fef2c1);
+  box-shadow: 3px 3px 3px 3px #c3c3c3;
+  border: 1px solid #eafffa;
+  border-radius: 12px;
 `;
 
 const Lines = styled.p`
@@ -72,16 +76,9 @@ const UserInfo = styled.div`
 `;
 
 const Btns = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
   width: 30px;
   margin-left: 10px;
-`;
-
-const Btn = styled.button`
-  background-color: #d0d6ed;
-  border-radius: 10px;
-  text-align: center;
-  cursor: pointer;
-  font-size: 20px;
-  margin-bottom: 5px;
-  border: 1px solid transparent;
 `;

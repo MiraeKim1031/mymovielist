@@ -42,6 +42,7 @@ const StButton = styled.button`
       case "lg":
         return css`
           width: 90%;
+          height: 50px;
         `;
       case "md":
         return css`

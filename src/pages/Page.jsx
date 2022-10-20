@@ -114,6 +114,10 @@ const ContentWrap = styled.div`
   text-align: center;
   width: 50%;
   margin: 0 auto;
+  padding: 30px;
+  background: linear-gradient(#ffe0b5, #c1ebfe);
+  box-shadow: 3px 3px 3px 3px #c3c3c3;
+  border: 1px solid #eafffa;
 `;
 
 const Content = styled.div`

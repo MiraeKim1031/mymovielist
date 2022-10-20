@@ -59,19 +59,23 @@ export default Comments;
 
 const CommentBox = styled.div`
   margin: 20px 0px 0px 50px;
-  overflow: scroll;
   display: flex;
+  border: 5px solid cadetblue;
+  border-radius: 10px;
+  padding: 5px;
+  height: 90px;
 `;
 const CommentAuthor = styled.div`
-  width: 50px;
+  width: 100px;
+  font-size: 20px;
+  margin-right: 30px;
+  display: flex;
+  justify-content: center;
 `;
 const CommentBody = styled.div`
+  font-size: 20px;
   width: 700px;
   height: 30px;
-`;
-
-const StBtn = styled.button`
-  border-radius: 15px;
 `;
 
 const StText = styled.textarea`

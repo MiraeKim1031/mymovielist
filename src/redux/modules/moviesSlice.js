@@ -12,10 +12,10 @@ export const __getMovies = createAsyncThunk(
   "movies/getMovies",
   async (payload, thunkAPI) => {
     try {
-      const data = await axios.get(` ${process.env.REACT_APP_MOVIES}`);
-      // const data = await axios.get(
-      //   "https://agile-bastion-29157.herokuapp.com/movies"
-      // );
+      //const data = await axios.get(` ${process.env.REACT_APP_MOVIES}`);
+      const data = await axios.get(
+        "https://agile-bastion-29157.herokuapp.com/movies"
+      );
 
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
@@ -28,7 +28,10 @@ export const __deleteMovies = createAsyncThunk(
   "movies/deleteMovies",
   async (payload, thunkAPI) => {
     try {
-      axios.delete(`${process.env.REACT_APP_MOVIES}/${payload}`);
+      // axios.delete(`${process.env.REACT_APP_MOVIES}/${payload}`);
+      axios.delete(
+        `"https://agile-bastion-29157.herokuapp.com/movies"/${payload}`
+      );
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -40,9 +43,15 @@ export const __completeMovies = createAsyncThunk(
   "movies/completeMovies",
   async (payload, thunkAPI) => {
     try {
-      axios.patch(`${process.env.REACT_APP_MOVIES}/${payload.id}`, {
-        isDone: !payload.isDone,
-      });
+      // axios.patch(`${process.env.REACT_APP_MOVIES}/${payload.id}`, {
+      //   isDone: !payload.isDone,
+      // });
+      axios.patch(
+        `"https://agile-bastion-29157.herokuapp.com/movies"/${payload.id}`,
+        {
+          isDone: !payload.isDone,
+        }
+      );
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);

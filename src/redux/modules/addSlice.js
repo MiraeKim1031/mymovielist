@@ -11,7 +11,8 @@ export const __addMovie = createAsyncThunk(
   "movie/addMovie",
   (payload, thunkAPI) => {
     try {
-      axios.post(`${process.env.REACT_APP_MOVIES}`, payload);
+      //axios.post(`${process.env.REACT_APP_MOVIES}`, payload);
+      axios.post("https://agile-bastion-29157.herokuapp.com/movies", payload);
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
