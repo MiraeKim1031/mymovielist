@@ -13,8 +13,13 @@ export const __getMovies = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       console.log("*********여기는겟무비");
-      const data = await axios.get(`${process.env.REACT_APP_HEROKU}/movies`);
-      return thunkAPI.fulfillWithValue(data.data);
+      //agile-bastion-29157.herokuapp.com
+      //const data = await axios.get(`${process.env.REACT_APP_HEROKU}/movies`);
+      const data = await axios.get(
+        "https://agile-bastion-29157.herokuapp.com/movies"
+      );
+
+      https: return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
