@@ -7,7 +7,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { __addMovie, __getMovie } from "../redux/modules/movieSlice";
 import Comment from "../components/Comment";
-import Button from "../element/button";
 import useLoading from "../hooks/useLoading";
 
 const Page = () => {
@@ -17,13 +16,12 @@ const Page = () => {
   const [input, setInput] = useState();
   const { isLoading, error, movie } = useSelector((state) => state.movie);
   const dispatch = useDispatch();
-
   useLoading(isLoading, error);
 
   useEffect(() => {
     dispatch(__getMovie(id));
   }, [dispatch]);
-
+  
   const onClickChangeHandler = () => {
     if (input.trim() === "") {
       return alert("텍스트를 입력하세요");
@@ -55,14 +53,14 @@ const Page = () => {
             </Content>
           </ContentWrap>
           <Btn>
-            <Button
+            <button
               onClick={() => {
                 navigate("/movies");
               }}
             >
               이전으로
-            </Button>
-            <Button onClick={onClickChangeHandler}>저장하기</Button>
+            </button>
+            <button onClick={onClickChangeHandler}>저장하기</button>
           </Btn>
         </Wrap>
       ) : (
@@ -83,15 +81,15 @@ const Page = () => {
             </Content>
           </ContentWrap>
           <Btn>
-            <Button
+            <button
               onClick={() => {
                 navigate("/movies");
               }}
             >
               이전으로
-            </Button>
+            </button>
             {movie.isDone === false ? (
-              <Button onClick={() => setEdit(true)}>수정하기</Button>
+              <button onClick={() => setEdit(true)}>수정하기</button>
             ) : null}
           </Btn>
         </Wrap>
@@ -126,10 +124,11 @@ const Content = styled.div`
     height: 100%;
   }
   > textArea {
-    border: none;
     width: 96%;
     height: 99%;
     border-radius: 15px;
+    border: none;
+    resize: none;
   }
 `;
 

@@ -1,34 +1,26 @@
-import React from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
-const Button = (props) => {
-  return (
-    <StButton {...props} disabled={props.disabled}>
-      {props.children}
-    </StButton>
-  );
-};
+function Button({ disabled, children }) {
+  return <StButton disabled={disabled}>{children}</StButton>;
+}
+
 export default Button;
 
 const StButton = styled.button`
   margin: 0;
   border: none;
   cursor: pointer;
-  font-family: "ghanachoco";
+  font-family: "Noto Sans KR", sans-serif;
   font-size: var(--button-font-size, 1rem);
-  //padding: var(--button-padding, 12px 16px);
+  padding: var(--button-padding, 12px 16px);
   border-radius: var(--button-radius, 8px);
-  background: var(--button-bg-color, #82b0fb);
+  background: var(--button-bg-color, #0d6efd);
   color: var(--button-color, #ffffff);
 
   &:active,
-  &:hover {
-    background-color: #e8bda6;
-    color: White;
-  }
-
+  &:hover,
   &:focus {
-    background: var(--button-hover-bg-color, #ffa97b); //누를때
+    background: var(--button-hover-bg-color, #025ce2);
   }
 
   &:disabled {
@@ -36,29 +28,4 @@ const StButton = styled.button`
     opacity: 0.5;
     background: var(--button-bg-color, #025ce2);
   }
-
-  ${({ size }) => {
-    switch (size) {
-      case "lg":
-        return css`
-          width: 90%;
-        `;
-      case "md":
-        return css`
-          width: 100px;
-        `;
-      case "sm":
-        return css`
-          width: 30px;
-          height: 30px !important;
-          background-color: bisque;
-        `;
-      default:
-        return css`
-          width: 120px;
-        `;
-    }
-  }}
 `;
-
-//import Button from "../element/button";
