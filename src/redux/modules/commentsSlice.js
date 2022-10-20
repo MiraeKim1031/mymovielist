@@ -11,7 +11,7 @@ export const __getComments = createAsyncThunk(
   "movies/getComments",
   async (_, thunkAPI) => {
     try {
-      const data = await axios.get("http://localhost:3001/comments");
+      const data = await axios.get(`${process.env.REACT_APP_HEROKU}/comments`);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -23,7 +23,7 @@ export const __addComment = createAsyncThunk(
   "movie/addComment",
   async (payload, thunkAPI) => {
     try {
-      await axios.post("http://localhost:3001/comments/", payload);
+      await axios.post(`${process.env.REACT_APP_HEROKU}/comments/`, payload);
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -36,7 +36,7 @@ export const __getCommentById = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const data = await axios.get(
-        `http://localhost:3001/comments?movieId=${payload}`
+        `${process.env.REACT_APP_HEROKU}/comments?movieId=${payload}`
       );
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
@@ -51,7 +51,7 @@ export const __deleteComment = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       console.log("삭제할거야" + payload);
-      await axios.delete(`http://localhost:3001/comments/${payload}`);
+      await axios.delete(`${process.env.REACT_APP_HEROKU}/comments/${payload}`);
       return thunkAPI.fulfillWithValue(payload);
     } catch (e) {
       return thunkAPI.rejectWithValue(e.code);
@@ -63,7 +63,12 @@ export const __updateComment = createAsyncThunk(
   "movie/updateComment",
   async (payload, thunkAPI) => {
     try {
-      axios.patch(`http://localhost:3001/comments/${payload.commentId}`, {commentBody: payload.input});
+      axios.patch(
+        `${process.env.REACT_APP_HEROKU}/comments/${payload.commentId}`,
+        {
+          commentBody: payload.input,
+        }
+      );
       return thunkAPI.fulfillWithValue(payload);
     } catch (e) {
       return thunkAPI.rejectWithValue(e);
@@ -133,8 +138,12 @@ export const commentsSlice = createSlice({
     [__updateComment.fulfilled]: (state, action) => {
       console.log(action.payload);
       state.isLoading = false;
-      const commentList = state.comments.map((comment) => comment.id === action.payload.commentId ? {...comment, commentBody : action.payload.input} : comment )
-      state.comments = commentList
+      const commentList = state.comments.map((comment) =>
+        comment.id === action.payload.commentId
+          ? { ...comment, commentBody: action.payload.input }
+          : comment
+      );
+      state.comments = commentList;
     },
     [__updateComment.pending]: (state, action) => {
       state.isLoading = false;
