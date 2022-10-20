@@ -23,7 +23,6 @@ export const __addComment = createAsyncThunk(
   "movie/addComment",
   async (payload, thunkAPI) => {
     try {
-      console.log(payload);
       await axios.post("http://localhost:3001/comments/", payload);
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
@@ -52,7 +51,6 @@ export const __deleteComment = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       console.log("삭제할거야" + payload);
-      //await axios.delete(`http://localhost:3001/comments?id=${payload}`);
       await axios.delete(`http://localhost:3001/comments/${payload}`);
       return thunkAPI.fulfillWithValue(payload);
     } catch (e) {
@@ -60,13 +58,12 @@ export const __deleteComment = createAsyncThunk(
     }
   }
 );
-//수정
+
 export const __updateComment = createAsyncThunk(
   "movie/updateComment",
   async (payload, thunkAPI) => {
     try {
-      console.log("수정" + payload);
-      axios.patch(`http://localhost:3001/comments/${payload}`, payload);
+      axios.patch(`http://localhost:3001/comments/${payload.commentId}`, {commentBody: payload.input});
       return thunkAPI.fulfillWithValue(payload);
     } catch (e) {
       return thunkAPI.rejectWithValue(e);
@@ -134,8 +131,10 @@ export const commentsSlice = createSlice({
       state.isLoading = true;
     },
     [__updateComment.fulfilled]: (state, action) => {
+      console.log(action.payload);
       state.isLoading = false;
-      state.comments = [...state.comments, action.payload];
+      const commentList = state.comments.map((comment) => comment.id === action.payload.commentId ? {...comment, commentBody : action.payload.input} : comment )
+      state.comments = commentList
     },
     [__updateComment.pending]: (state, action) => {
       state.isLoading = false;

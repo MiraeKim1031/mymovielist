@@ -5,12 +5,12 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import Layout from "../components/Layout";
+import Button from "../element/button";
 
 const AddMovie = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [movie, setMovie] = useState({
-    movieId: 0,
     author: "",
     title: "",
     body: "",
@@ -25,12 +25,12 @@ const AddMovie = () => {
   const {
     register,
     formState: { errors },
-  } = useForm({ mode: "onBlur" }); //유효성검사
+  } = useForm({ mode: "onBlur" });
 
   return (
     <Layout>
       <StContainer>
-        <StTitle>결심을 작성해 주세요!🔥</StTitle>
+        <StTitle>결심을 작성해주세요!🔥</StTitle>
         <Stform
           onSubmit={(event) => {
             event.preventDefault();
@@ -52,6 +52,7 @@ const AddMovie = () => {
                   message: "가능한 문자: 영문 대소문자, 글자 단위 한글, 숫자",
                 },
               })}
+              minLength="3"
               type="text"
               onChange={(ev) => {
                 const { value } = ev.target;
@@ -68,7 +69,7 @@ const AddMovie = () => {
             <Stlabel>제목</Stlabel>
             <Stinput
               {...register("title", {
-                required: "이름을 입력해주세요.",
+                required: "제목을 입력해주세요.",
                 minLength: {
                   value: 3,
                   message: "3글자 이상 입력해주세요.",
@@ -78,6 +79,7 @@ const AddMovie = () => {
                   message: "가능한 문자: 영문 대소문자, 글자 단위 한글, 숫자",
                 },
               })}
+              minLength="3"
               type="text"
               onChange={(ev) => {
                 const { value } = ev.target;
@@ -94,7 +96,7 @@ const AddMovie = () => {
             <Stlabel>내용</Stlabel>
             <Stinputs
               {...register("body", {
-                required: "이름을 입력해주세요.",
+                required: "내용을 입력해주세요.",
                 minLength: {
                   value: 3,
                   message: "3글자 이상 입력해주세요.",
@@ -104,6 +106,7 @@ const AddMovie = () => {
                   message: "가능한 문자: 영문 대소문자, 글자 단위 한글, 숫자",
                 },
               })}
+              minLength="3"
               type="text"
               onChange={(ev) => {
                 const { value } = ev.target;
@@ -115,7 +118,7 @@ const AddMovie = () => {
             />
             <Warn>{errors?.body?.message}</Warn>
           </Stwrap>
-          <Stbutton>추가하기</Stbutton>
+          <Button size="lg">추가하기</Button>
         </Stform>
       </StContainer>
     </Layout>
@@ -149,22 +152,22 @@ const Warn = styled.div`
   margin-top: 5px;
   margin-left: -180px;
 `;
-const Stbutton = styled.button`
-  font-family: "ghanachoco";
-  font-size: 17px;
-  border: none;
-  background-color: rgb(130, 176, 251);
-  height: 60px;
-  cursor: pointer;
-  width: 150px;
-  border-radius: 12px;
-  color: white;
-  margin-top: 50px;
-  &:hover {
-    background-color: #e8bda6;
-    color: White;
-  }
-`;
+// const Stbutton = styled.button`
+//   font-family: "ghanachoco";
+//   font-size: 17px;
+//   border: none;
+//   background-color: #82b0fb;
+//   height: 60px;
+//   cursor: pointer;
+//   width: 150px;
+//   border-radius: 12px;
+//   color: white;
+//   margin-top: 50px;
+//   &:hover {
+//     background-color: #e8bda6;
+//     color: White;
+//   }
+//`;
 const Stform = styled.form`
   border-radius: 20px;
   border: 5px solid cadetblue;

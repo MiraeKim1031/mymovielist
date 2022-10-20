@@ -35,9 +35,7 @@ export const __addMovie = createAsyncThunk(
   "movie/addMovie",
   async (payload, thunkAPI) => {
     try {
-      await axios.patch(`http://localhost:3001/movies/${payload.id}`, {
-        body: payload.body,
-      });
+      await axios.patch(`http://localhost:3001/movies/${payload.id}`, {body: payload.body,});
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -55,7 +53,6 @@ const MovieSlice = createSlice({
     },
     [__getMovie.fulfilled]: (state, action) => {
       state.isLoading = false;
-      console.log(action.payload);
       state.movie = action.payload;
     },
     [__getMovie.rejected]: (state, action) => {

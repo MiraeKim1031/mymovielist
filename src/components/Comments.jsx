@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import styled from "styled-components";
 import {
   __deleteComment,
   __getComments,
   __updateComment,
 } from "../redux/modules/commentsSlice";
+import Button from "../element/button";
 
 const Comments = ({ comment }) => {
-  //console.log(id);
   const dispatch = useDispatch();
   const [isEdit, setEdit] = useState(false);
   const [input, setInput] = useState("");
@@ -27,45 +27,56 @@ const Comments = ({ comment }) => {
   };
 
   const onClickChangeHandler = (commentId) => {
-    // if (input.trim() === "") {
-    //   return alert("텍스트를 입력하세요");
-    // }
-    //console.log({ ...comments });
-    console.log(comment);
-    dispatch(__updateComment({ ...comment, commentBody: input }));
+    dispatch(__updateComment({ commentId, input }));
     setEdit(false);
   };
 
   return (
-    <div>
-      <div key={comment.id}>
-        <b>{comment.commentAuthor}</b> {comment.commentBody}
-        <div>
-          <button onClick={() => fnDeleteCommentHandler(comment.id)}>
-            삭제하기
-          </button>
-          <div>
-            {!isEdit ? (
-              <div>
-                {/* <div>{comment.commentBody}</div> */}
-                <button onClick={() => setEdit(true)}>수정하기</button>
-              </div>
-            ) : (
-              <div>
-                <textarea
-                  value={input}
-                  onChange={(e) => {
-                    setInput(e.target.value);
-                  }}
-                ></textarea>
-                <button onClick={onClickChangeHandler}>저장하기</button>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
+    <CommentBox key={comment.id}>
+      <CommentAuthor>{comment.commentAuthor}</CommentAuthor>
+      {!isEdit ? (
+        <>
+          <CommentBody>{comment.commentBody}</CommentBody>
+          <Button onClick={() => setEdit(true)}>수정</Button>
+        </>
+      ) : (
+        <>
+          <StText
+            value={input}
+            onChange={(e) => {
+              setInput(e.target.value);
+            }}
+          ></StText>
+          <Button onClick={() => onClickChangeHandler(comment.id)}>저장</Button>
+        </>
+      )}
+      <Button onClick={() => fnDeleteCommentHandler(comment.id)}>삭제</Button>
+    </CommentBox>
   );
 };
 
 export default Comments;
+
+const CommentBox = styled.div`
+  margin: 20px 0px 0px 50px;
+  overflow: scroll;
+  display: flex;
+`;
+const CommentAuthor = styled.div`
+  width: 50px;
+`;
+const CommentBody = styled.div`
+  width: 700px;
+  height: 30px;
+`;
+
+const StBtn = styled.button`
+  border-radius: 15px;
+`;
+
+const StText = styled.textarea`
+  height: 30px;
+  width: 700px;
+  background-color: transparent;
+  border: 1px solid transparent;
+`;

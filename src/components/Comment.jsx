@@ -2,15 +2,18 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import commentsSlice, { __addComment } from "../redux/modules/commentsSlice";
+import { __addComment } from "../redux/modules/commentsSlice";
 import Comments from "./Comments";
 import { __getComments } from "../redux/modules/commentsSlice";
 import { useSelector } from "react-redux";
+import useLoading from "../hooks/useLoading";
+import Button from "../element/button";
 
 const Comment = () => {
   const { id } = useParams();
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
+
   const initialState = {
     id: 0,
     movieId: id,
@@ -20,6 +23,7 @@ const Comment = () => {
   const [comment, setComment] = useState(initialState);
 
   const { isLoading, error, comments } = useSelector((state) => state.comments);
+  useLoading(isLoading, error);
 
   useEffect(() => {
     dispatch(__getComments());
@@ -42,13 +46,14 @@ const Comment = () => {
     <>
       <Wrap open={open}>
         <div
+          className="innerDiv"
           onClick={() => {
             setOpen((open) => !open);
           }}
         >
           {open ? "눌러서 댓글 내리기" : "눌러서 댓글 보기"}
         </div>
-        <wrap>
+        <div>
           <Btnbox>
             <form
               onSubmit={(e) => {
@@ -80,14 +85,15 @@ const Comment = () => {
                   });
                 }}
               />
-              <button>추가하기</button>
+              <Button>추가하기</Button>
             </form>
           </Btnbox>
-          {comments.map((comment) =>
-            //console.log(+id, +comment.id)
-            +id === +comment.movieId ? <Comments comment={comment} /> : null
-          )}
-        </wrap>
+          {comments.map((comment) => (
+            <div key={comment.id}>
+              {+id === +comment.movieId ? <Comments comment={comment} /> : null}
+            </div>
+          ))}
+        </div>
       </Wrap>
     </>
   );
@@ -98,12 +104,13 @@ export default Comment;
 const Wrap = styled.div`
   width: 100%;
   background-color: white;
-  height: ${({ open }) => (open ? "500px" : "30px")};
+  height: ${({ open }) => (open ? "300px" : "30px")};
   position: absolute;
   bottom: 0;
   left: 0;
   transition: height 400ms ease-in-out;
-  > div {
+
+  .innerDiv {
     position: fixed;
     width: 100%;
     background-color: cadetblue;
@@ -145,10 +152,4 @@ const Btnbox = styled.div`
     color: black;
     cursor: pointer;
   }
-`;
-const Txt = styled.div`
-  width: 100%;
-  margin-top: 50px;
-  display: flex;
-  justify-content: space-evenly;
 `;

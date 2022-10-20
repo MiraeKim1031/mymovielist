@@ -7,6 +7,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { __addMovie, __getMovie } from "../redux/modules/movieSlice";
 import Comment from "../components/Comment";
+import Button from "../element/button";
+import useLoading from "../hooks/useLoading";
 
 const Page = () => {
   const { id } = useParams();
@@ -16,17 +18,11 @@ const Page = () => {
   const { isLoading, error, movie } = useSelector((state) => state.movie);
   const dispatch = useDispatch();
 
+  useLoading(isLoading, error);
+
   useEffect(() => {
     dispatch(__getMovie(id));
   }, [dispatch]);
-
-  if (isLoading) {
-    return <div>로딩중</div>;
-  }
-
-  if (error) {
-    return <div>{error.mesasage}</div>;
-  }
 
   const onClickChangeHandler = () => {
     if (input.trim() === "") {
@@ -59,14 +55,14 @@ const Page = () => {
             </Content>
           </ContentWrap>
           <Btn>
-            <button
+            <Button
               onClick={() => {
                 navigate("/movies");
               }}
             >
               이전으로
-            </button>
-            <button onClick={onClickChangeHandler}>저장하기</button>
+            </Button>
+            <Button onClick={onClickChangeHandler}>저장하기</Button>
           </Btn>
         </Wrap>
       ) : (
@@ -87,15 +83,15 @@ const Page = () => {
             </Content>
           </ContentWrap>
           <Btn>
-            <button
+            <Button
               onClick={() => {
                 navigate("/movies");
               }}
             >
               이전으로
-            </button>
+            </Button>
             {movie.isDone === false ? (
-              <button onClick={() => setEdit(true)}>수정하기</button>
+              <Button onClick={() => setEdit(true)}>수정하기</Button>
             ) : null}
           </Btn>
         </Wrap>
