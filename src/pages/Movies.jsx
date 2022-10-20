@@ -14,6 +14,7 @@ const Movies = () => {
 
   useEffect(() => {
     dispatch(__getMovies());
+    console.log("*********여기는무비페이지의 useEffect");
   }, [dispatch]);
 
   return (
