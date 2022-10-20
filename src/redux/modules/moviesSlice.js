@@ -18,7 +18,7 @@ export const __getMovies = createAsyncThunk(
       //   "https://agile-bastion-29157.herokuapp.com/movies"
       // );
 
-      https: return thunkAPI.fulfillWithValue(data.data);
+      return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
