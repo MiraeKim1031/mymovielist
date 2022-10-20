@@ -11,7 +11,7 @@ export const __getComments = createAsyncThunk(
   "movies/getComments",
   async (_, thunkAPI) => {
     try {
-      const data = await axios.get(process.env.REACT_APP_COMMENTS);
+      const data = await axios.get(`${process.env.REACT_APP_COMMENTS}`);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -23,7 +23,7 @@ export const __addComment = createAsyncThunk(
   "movie/addComment",
   async (payload, thunkAPI) => {
     try {
-      await axios.post(process.env.REACT_APP_COMMENTS, payload);
+      await axios.post(`${process.env.REACT_APP_COMMENTS}`, payload);
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
