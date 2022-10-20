@@ -57,7 +57,7 @@ const Page = () => {
           <Btn>
             <Button
               onClick={() => {
-                navigate("/movies");
+                navigate("/moviepage");
               }}
             >
               이전으로
@@ -85,7 +85,7 @@ const Page = () => {
           <Btn>
             <Button
               onClick={() => {
-                navigate("/movies");
+                navigate("/moviepage");
               }}
             >
               이전으로

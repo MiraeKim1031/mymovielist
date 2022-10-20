@@ -14,7 +14,7 @@ const Home = () => {
       <StContainer>
         <MainBox
           onClick={() => {
-            // navigate("/write");
+            navigate("/write");
           }}
         >
           <p>
